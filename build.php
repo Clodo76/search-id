@@ -46,18 +46,6 @@ function buildReplace(&$out, $from, $to)
 	$out = str_replace($from, $to, $out);
 }
 
-function buildMinifyJS($js)
-{
-	// TODO
-	return $js;
-}
-
-function buildMinifyCSS($css)
-{
-	// TODO
-	return $css;
-}
-
 function main()
 {
 	try
@@ -70,16 +58,26 @@ function main()
 		foreach ($matchesJS[1] as $js)
 		{			
 			buildLog("Found JS:" . $js);
-			$ex = buildMinifyJS(buildReadFile($js));
+			$ex = buildReadFile($js);
+			if(strpos($js,".min.js") === false)
+			{
+				$ex = exec("yui-compressor \"" . $js . "\"", $output, $yuiResult);											
+				if($yuiResult != 0)
+					buildLog("Error in yui-compressor about " . $js, true); // Debug with http://refresh-sf.com/
+			}
 			$out = str_replace("<script src=\"" . $js . "\">", "<script>" . $ex, $out);
 		}
 		
-		//$cssScript = preg_match_all("/\<link rel=\"stylesheet\" type=\"text/css\" href=\"(.*?)\" \/\>/", $out, $matchesCSS);
 		preg_match_all("/\<link rel=\"stylesheet\" type=\"text\/css\" href=\"(.*?)\" \/\>/", $out, $matchesCSS);
 		foreach ($matchesCSS[1] as $css)
 		{			
 			buildLog("Found CSS:" . $css);
-			$ex = buildMinifyCSS(buildReadFile($css));
+			if(strpos($css,".min.css") === false)
+			{
+				$ex = exec("yui-compressor \"" . $css . "\"", $output, $yuiResult);															
+				if($yuiResult != 0)
+					buildLog("Error in yui-compressor about " . $css, true); // Debug with http://refresh-sf.com/
+			}
 			$out = str_replace("<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $css . "\" />", "<style>" . $ex . "</style>", $out);
 		}
 		
@@ -100,19 +98,26 @@ function main()
 			    ($mime != "image/png") )
 				buildLog("Unexpected mime-type: " . $mime, true);
 		}
-		
-		
+
 		/*
-		// TOFIX: With reg-ex can be better.
-		buildReplace($out, "<script src=\"embedded/p2p-graph.min.js\"></script>", "<script>" . buildMinifyJS(buildReadFile("embedded/p2p-graph.min.js")) . "</script>");
-		buildReplace($out, "<script src=\"embedded/jquery-3.3.1.min.js\"></script>", "<script>" . buildMinifyJS(buildReadFile("embedded/jquery-3.3.1.min.js")) . "</script>");
-		buildReplace($out, "<script src=\"embedded/webtorrent.min.js\"></script>", "<script>" . buildMinifyJS(buildReadFile("embedded/webtorrent.min.js")) . "</script>");
-		
-		buildReplace($out, "<script src=\"embedded/search-id.js\"></script>", "<script>" . buildMinifyJS(buildReadFile("embedded/search-id.js")) . "</script>");
-		buildReplace($out, "<script src=\"embedded/search-id.lang.en.js\"></script>", "<script>" . buildMinifyJS(buildReadFile("embedded/search-id.lang.en.js")) . "</script>");
-		buildReplace($out, "<script src=\"embedded/search-id.lang.it.js\"></script>", "<script>" . buildMinifyJS(buildReadFile("embedded/search-id.lang.it.js")) . "</script>");		
+		preg_match_all("/href=\"(.+?)\"/", $out, $matchesUrlLink);
+		foreach ($matchesUrlLink[1] as $href)
+		{			
+			buildLog("Found Link Url:" . $href);
+			
+			$path = "embedded/" . $href;
+			
+			$mime = mime_content_type($path);
+			$data = base64_encode(file_get_contents($path));
+			$src = "data:" . $mime . ";base64," . $data;
+			
+			$out = str_replace("url(\"" . $css . "\")","url(" . $src . ")", $out);
+			
+			if( ($mime != "image/svg+xml") &&
+			    ($mime != "image/png") )
+				buildLog("Unexpected mime-type: " . $mime, true);
+		}
 		*/
-		//buildReplace($out, "<link rel=\"stylesheet\" type=\"text/css\" href=\"embedded/search-id.css\" />", "<style>" . buildMinifyCSS(buildReadFile("embedded/search-id.css")) . "</style>");
 		
 		buildWriteFile("search-id.min.html", $out);
 		

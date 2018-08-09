@@ -603,18 +603,45 @@ Layout
 	opacity:1;
 }
 
-#thanks
+#credits
 {
 	padding:1em;
 	text-align:right;
 	color:gray;
 }
 
-#thanks a
+#credits a
 {
 	font-weight:bold;
 	color: black;
 	text-decoration:none;
+}
+
+#credits a.social
+{	
+	display:inline-block;
+	vertical-align:middle;
+	width:1.2em;
+	height:1.2em;
+	padding-left:0.5em;
+	background-repeat:no-repeat;
+	background-size:contain;
+	background-position:center center;
+}
+
+#credits a.github
+{
+	background-image:url("github.svg");
+}
+
+#credits a.twitter
+{
+	background-image:url("twitter.svg");
+}
+
+#credits a.telegram
+{
+	background-image:url("telegram.svg");
 }
 
 #webtorrent

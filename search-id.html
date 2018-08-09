@@ -30,8 +30,10 @@
 		<meta name="google" content="nositelinkssearchbox" />
 		<meta name="google" content="notranslate" />
 		
+		<!--
 		<link rel="shortcut icon" href="embedded/favicon.ico" type="image/x-icon">
 		<link rel="icon" href="embedded/favicon.ico" type="image/x-icon">
+		-->
 
 		<link rel="stylesheet" type="text/css" href="embedded/search-id.css" />
 
@@ -40,11 +42,11 @@
 		<script src="embedded/jquery-3.3.1.min.js"></script>
 		<script src="embedded/bchaddrjs-0.2.1.min.js"></script>
 		<script src="embedded/search-id.js"></script>
-		<script src="embedded/search-id.lang.en.js"></script>
-		<script src="embedded/search-id.lang.it.js"></script>
+		<script src="embedded/search-id.lang.en.js"></script>		
 		<script src="embedded/options.js"></script>
 	</head>
 
+	<!-- TOFIX: css are ignored for body, why? Workaround: inline-style. -->
 	<body style='padding:0;margin:0;font-family:Helvetica;background-color:rgba(242,242,242,1);' onload="Id2Web.start();">
 		<div style="display:none" id="main-area">
 			<form method="post" action="?act=upload" id='uploadForm' enctype="multipart/form-data">
@@ -86,31 +88,21 @@
 				<a class='link-copy'></a>
 			</div>						
 			<div id='files'></div>
-			<div id='thanks'>
-				search-id.org <span id='version'></span> by <a class='hover-effect' target='_blank' href='https://twitter.com/Clodo76'>Clodo</a>
+			<div id='credits'>
+				search-id <span id='version'></span> by <a class='hover-effect' target='_blank' href='https://twitter.com/Clodo76'>Clodo</a>. 				
+				-
+				<a target='_blank' href='https://github.com/Clodo76/search-id' class='hover-effect tooltip-top social github' data-tooltip='GitHub'></a>
+				<a target='_blank' href='https://twitter.com/SearchID2' class='hover-effect tooltip-top social twitter' data-tooltip='Twitter'></a>
+				<a target='_blank' href='https://t.me/joinchat/CANCWhA7RdXTISGhvyWKcg' class='hover-effect tooltip-top social telegram' data-tooltip='Telegram'></a>
+				-
+				<a target='_blank' href='https://www.gnu.org/licenses/gpl-3.0.html' class='hover-effect tooltip-top' data-tooltip='Open Source License'>GPLv3</a> 
 				<br>
-				Frontend powered by
+				Powered by
 				<a id='webtorrent' class='hover-effect tooltip-bottom' data-tooltip='It rocks!' target='_blank' href='https://webtorrent.io'></a>				
 			</div>
 		</div>
 		<div id='menu'></div>
 		<div id='play'></div>
-		<div id='viewer'></div>
-		<!--
-		<div id="toolbar">
-			<div id="toolbar-items">				
-				<a title="search-id.org 0.1" target="_blank" href="https://github.com/Clodo76/id2web" class="toolbar-button" id="toolbar-about"><img src="needembed/about.png" "></a>
-				<span title="Downloading" class="toolbar-pane" id="toolbar-name"><img src="needembed/download.png">
-					<span id="toolbar-name-info"></span>
-					<a title="Magnet (Torrent)" href="#" style="display:none" class="toolbar-button" id="toolbar-magnet"><img src="needembed/magnet.png"></a>
-					<a title="Share (Web)" href="#" style="display:inline-block" class="toolbar-button" id="toolbar-link" target="_blank"><img src="needembed/share.png"></a>
-					<a title="Save file" href="#" style="display:none" class="toolbar-button" id="toolbar-download"><img src="needembed/save.png"></a>
-				</span>
-				<span title="Uploading" class="toolbar-pane" id="toolbar-seed"><img src="needembed/upload.png"><span id="toolbar-seed-info"></span></span>
-				<span title="Peers" class="toolbar-pane" id="toolbar-peers"><img src="needembed/peers.png"> <span id="toolbar-peers-n"></span></span>
-			</div>
-			<div id="toolbar-hover"></div>
-		</div>
-		-->
+		<div id='viewer'></div>		
 	</body>
 </html>

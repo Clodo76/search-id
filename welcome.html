@@ -71,8 +71,19 @@
 				padding:0.5em;
 				margin:0.5m;
 				border:1px solid gray;
-				border-left:1em solid gray;
+				border-left:1em solid gray;			
 			}
+
+			a
+			{
+				color: rgba(5,103,255,1);
+				text-decoration: none;
+			}
+			a:hover
+			{
+				text-decoration: underline;
+			}
+			
 			
 			#revision
 			{
@@ -146,10 +157,10 @@
 				This is an APP (as single html file, download <a download target='_parent' href='search-id.min.html'>here</a>) that search and show content of an ID (multiple formats supported, see below) only with P2P technologies.
 			</p>
 			<p>
-				It's totally privacy-aware. The html itself don't collect anything, there isn't external references/urls fetched. Only webtorrent-trackers keep data, but not enough for identification.
+				It's totally privacy-aware. The html itself don't collect anything, there isn't external required references/urls fetched. Only webtorrent-trackers keep data, but not enough for identification.
 			</p>
 			<p class='subtitle'>
-				Open the left menu for stuffs. Add content to the network with the + button. Return to this page with the HOME buttom (this welcome page it's hosted in the system itself).
+				Open the left menu for stuffs. Add content to the network with the + button. Return to this page with the HOME button.
 			</p>			
 		</div>
 		
@@ -211,7 +222,7 @@
 			</div>
 
 			<div class='box'>
-				This system can be used in combo with <a target='_blank' href='https://memo.cash/'>memo.cash</a>, a Social Network based on Dapp build on Bitcoin Cash. Example: <a target='_blank' href='https://memo.cash/post/503af73303569fe6b4e72ec58867a2a241d7c45ebd23bdefd97d25826d18ef78'>A post on memo.cash</a>.'
+				This system can be used in combo with <a target='_blank' href='https://memo.cash/'>memo.cash</a>, a Social Network based on Dapp build on Bitcoin Cash. Example: <a target='_blank' href='https://memo.cash/post/503af73303569fe6b4e72ec58867a2a241d7c45ebd23bdefd97d25826d18ef78'>A post on memo.cash</a>. The post ID is a BCH transaction, use ID here to render the content.
 			</div>
 			
 			<div class='box'>
@@ -332,10 +343,13 @@
 					Don't work well with biggest file (>1gb).
 				</li>
 				<li>
+					Implement Direct link to a file inside a torrent					
+				</li>
+				<li>
 					Better embedding view for small size iframe.
 				</li>
 				<li>
-					Code cleaning. This is a draft/alpha.
+					Code cleaning. This is a draft/alpha. Study StandardJS.
 				</li>				
 				<li>
 					Support of .SRT files for video. Maybe use an alternative video-player.
@@ -350,19 +364,13 @@
 					Support other kind of ID
 				</li>
 				<li>
-					Document parameters
+					More documentation
 				</li>								
 				<li>
 					Warning if javascript is not active. Works in all recent browsers? Enumerate it.
 				</li>				
 				<li>
 					Test against Mozilla Observatory, implement CSP where possible.
-				</li>
-				<li>
-					More documentation
-				</li>				
-				<li>
-					Implement Direct link to a file inside a torrent					
 				</li>
 			</ul>
 		</div>
@@ -373,12 +381,10 @@
 				This project is developed by <a target='_blank' href='https://www.clodo.it'>Clodo</a> and it's a frontend to the great <a target='_blank' href='https://webtorrent.io/'>WebTorrent</a> project.
 			</p>
 			<p>
-				It's released under GPL3. Thinking about <a target='_blank' href='https://www.kopimi.com/'>Kopimi</a> adoption.
+				It's released under <a target='_blank' href='https://www.gnu.org/licenses/gpl-3.0.html'>GPLv3</a>. Thinking about <a target='_blank' href='https://www.kopimi.com/'>Kopimi</a> adoption.
 			</p>
 			<p>
-				Hosted on <a target='_blank' href='https://github.com/Clodo76/search-id'>GitHub</a>
-			<p>
-				Currently we have a <a target='_blank' href='https://t.me/joinchat/CANCWhA7RdXTISGhvyWKcg'>Telegram Group</a> for testing and feedback.
+				Hosted on <a target='_blank' href='https://github.com/Clodo76/search-id'>GitHub</a>. <a target='_blank' href='https://twitter.com/SearchID2'>Twitter</a> and <a target='_blank' href='https://t.me/joinchat/CANCWhA7RdXTISGhvyWKcg'>Telegram Group</a> for testing and feedback.				
 			</p>
 		</div>
 		

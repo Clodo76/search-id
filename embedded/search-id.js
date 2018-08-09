@@ -17,7 +17,7 @@
 
 var Id2Web =
 {
-	version: "0.2α",
+	version: "0.3α",
 	instanceId: parseInt(Math.random()*10000),
 	lang: {},
 	params: null,
@@ -115,8 +115,7 @@ var Id2Web =
 			Id2Web.play();
 		});
 
-		$("#version").text(Id2Web.version);
-
+		$("#version").text(Id2Web.version);		
 
 		Id2Web.playTime = 0;
 
@@ -297,7 +296,7 @@ var Id2Web =
 		metaThemeColor.setAttribute("content", color);
 	},
 
-	message: function(title, subtitle = "")
+	message: function(title, subtitle)
 	{
 		$(".message" ).each(function( index ) {
 			if(("dismiss" in $(this).data()) == false)
@@ -978,7 +977,7 @@ var Id2Web =
 		return '';
 	},
 
-	bytesToStr(bytes, si)
+	bytesToStr: function(bytes, si)
 	{
 		var thresh = si ? 1000 : 1024;
 		if(Math.abs(bytes) < thresh) {
@@ -995,7 +994,7 @@ var Id2Web =
 		return bytes.toFixed(1)+' '+units[u];
 	},
 
-	hex2ascii(str)
+	hex2ascii: function(str)
 	{
 		var hex  = str.toString();
 		var str = '';
