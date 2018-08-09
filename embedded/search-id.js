@@ -526,7 +526,7 @@ var Id2Web =
 		// Build view
 		$("#viewer").empty();
 		$("#viewer").removeClass("viewer-primary");
-		Id2Web.message("Building view");
+		Id2Web.message("Building view","");
 
 		// First lap, main file
 		if(mainFile != -1)
@@ -551,7 +551,7 @@ var Id2Web =
 			}
 		}
 
-		Id2Web.message("");
+		Id2Web.message("","");
 	},
 
 	buildFileContent: function(file)
