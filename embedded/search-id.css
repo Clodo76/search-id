@@ -1,0 +1,765 @@
+﻿/*
+// https://search-id.org
+// 
+// This file is part of search-id.org project.
+//
+// search-id is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// search-id is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this file. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+body
+{
+	padding:0;
+	margin:0;
+	font-family:Helvetica;
+	background-color:rgba(242,242,242,1);
+}
+
+.subtitle
+{
+	font-size:0.5em;
+	color:gray;
+}
+
+.hover-effect
+{
+	opacity:0.7;
+	
+	transition: opacity 0.5s;
+}
+
+.hover-effect:hover
+{
+	opacity:1;
+}
+
+.disabled
+{
+	opacity:0.2;
+}
+
+.disabled:hover
+{
+	opacity:0.2;
+}
+
+/**
+ * Tooltip Styles
+ */
+
+/* Base styles for the element that has a tooltip */
+[data-tooltip],
+.tooltip {
+  position: relative;
+  cursor: pointer;
+}
+
+/* Base styles for the entire tooltip */
+[data-tooltip]:before,
+[data-tooltip]:after,
+.tooltip:before,
+.tooltip:after {
+  position: absolute;
+  visibility: hidden;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  -webkit-transition: 
+      opacity 0.2s ease-in-out,
+        visibility 0.2s ease-in-out,
+        -webkit-transform 0.2s cubic-bezier(0.71, 1.7, 0.77, 1.24);
+    -moz-transition:    
+        opacity 0.2s ease-in-out,
+        visibility 0.2s ease-in-out,
+        -moz-transform 0.2s cubic-bezier(0.71, 1.7, 0.77, 1.24);
+    transition:         
+        opacity 0.2s ease-in-out,
+        visibility 0.2s ease-in-out,
+        transform 0.2s cubic-bezier(0.71, 1.7, 0.77, 1.24);
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform:    translate3d(0, 0, 0);
+  transform:         translate3d(0, 0, 0);
+  pointer-events: none;
+}
+
+/* Show the entire tooltip on hover and focus */
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after,
+[data-tooltip]:focus:before,
+[data-tooltip]:focus:after,
+.tooltip:hover:before,
+.tooltip:hover:after,
+.tooltip:focus:before,
+.tooltip:focus:after {
+  visibility: visible;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+}
+
+/* Base styles for the tooltip's directional arrow */
+.tooltip:before,
+[data-tooltip]:before {
+  z-index: 1001;
+  border: 6px solid transparent;
+  background: transparent;
+  content: "";
+}
+
+/* Base styles for the tooltip's content area */
+.tooltip:after,
+[data-tooltip]:after {
+  z-index: 1000;
+  padding: 8px;
+  width: 160px;
+  background-color: #000;
+  background-color: hsla(0, 0%, 20%, 0.9);
+  color: #fff;
+  content: attr(data-tooltip);
+  font-size: 14px;
+  line-height: 1.2;
+  text-align:center;
+}
+
+/* Directions */
+
+/* Top (default) */
+[data-tooltip]:before,
+[data-tooltip]:after,
+.tooltip:before,
+.tooltip:after,
+.tooltip-top:before,
+.tooltip-top:after {
+  bottom: 100%;
+  left: 50%;
+}
+
+[data-tooltip]:before,
+.tooltip:before,
+.tooltip-top:before {
+  margin-left: -6px;
+  margin-bottom: -12px;
+  border-top-color: #000;
+  border-top-color: hsla(0, 0%, 20%, 0.9);
+}
+
+/* Horizontally align top/bottom tooltips */
+[data-tooltip]:after,
+.tooltip:after,
+.tooltip-top:after {
+  margin-left: -80px;
+}
+
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after,
+[data-tooltip]:focus:before,
+[data-tooltip]:focus:after,
+.tooltip:hover:before,
+.tooltip:hover:after,
+.tooltip:focus:before,
+.tooltip:focus:after,
+.tooltip-top:hover:before,
+.tooltip-top:hover:after,
+.tooltip-top:focus:before,
+.tooltip-top:focus:after {
+  -webkit-transform: translateY(-12px);
+  -moz-transform:    translateY(-12px);
+  transform:         translateY(-12px); 
+}
+
+/* Left */
+.tooltip-left:before,
+.tooltip-left:after {
+  right: 100%;
+  bottom: 50%;
+  left: auto;
+}
+
+.tooltip-left:before {
+  margin-left: 0;
+  margin-right: -12px;
+  margin-bottom: 0;
+  border-top-color: transparent;
+  border-left-color: #000;
+  border-left-color: hsla(0, 0%, 20%, 0.9);
+}
+
+.tooltip-left:hover:before,
+.tooltip-left:hover:after,
+.tooltip-left:focus:before,
+.tooltip-left:focus:after {
+  -webkit-transform: translateX(-12px);
+  -moz-transform:    translateX(-12px);
+  transform:         translateX(-12px); 
+}
+
+/* Bottom */
+.tooltip-bottom:before,
+.tooltip-bottom:after {
+  top: 100%;
+  bottom: auto;
+  left: 50%;
+}
+
+.tooltip-bottom:before {
+  margin-top: -12px;
+  margin-bottom: 0;
+  border-top-color: transparent;
+  border-bottom-color: #000;
+  border-bottom-color: hsla(0, 0%, 20%, 0.9);
+}
+
+.tooltip-bottom:hover:before,
+.tooltip-bottom:hover:after,
+.tooltip-bottom:focus:before,
+.tooltip-bottom:focus:after {
+  -webkit-transform: translateY(12px);
+  -moz-transform:    translateY(12px);
+  transform:         translateY(12px); 
+}
+
+/* Right */
+.tooltip-right:before,
+.tooltip-right:after {
+  bottom: 50%;
+  left: 100%;
+}
+
+.tooltip-right:before {
+  margin-bottom: 0;
+  margin-left: -12px;
+  border-top-color: transparent;
+  border-right-color: #000;
+  border-right-color: hsla(0, 0%, 20%, 0.9);
+}
+
+.tooltip-right:hover:before,
+.tooltip-right:hover:after,
+.tooltip-right:focus:before,
+.tooltip-right:focus:after {
+  -webkit-transform: translateX(12px);
+  -moz-transform:    translateX(12px);
+  transform:         translateX(12px); 
+}
+
+/* Move directional arrows down a bit for left/right tooltips */
+.tooltip-left:before,
+.tooltip-right:before {
+  top: 3px;
+}
+
+/* Vertically center tooltip content for left/right tooltips */
+.tooltip-left:after,
+.tooltip-right:after {
+  margin-left: 0;
+  margin-bottom: -16px;
+}
+
+/* ---------------------
+Layout
+--------------------- */
+
+#play
+{
+	display:none;
+	position:absolute;
+	z-index: 100;
+	width:100vw;
+	height:100vh;
+	background-image: url("play.svg");
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 20vw 20vw;
+	opacity:0.5;
+	cursor:pointer;
+	transition:opacity 1s;
+	background-color:white;
+}
+#play:hover
+{
+	opacity:1;
+}
+.message
+{
+	position:absolute;
+	text-align:center;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	top: 50%;
+	width: 100%;
+	font-size:2em;
+	z-index: 1;
+	height: 2em;
+	margin-top: -1em;
+	color:gray;
+}
+#menu
+{
+	position:fixed;				
+	left:1%;
+	top:1%;
+	width:5%;
+	height:5%;		
+	
+	z-index:200;
+	opacity:0.5;
+	cursor:pointer;
+	
+	background-image:url("menu.svg");
+	background-size:contain;
+	background-repeat:no-repeat;	
+	
+	mix-blend-mode: difference;
+	
+	transition:opacity 0.5s;
+}
+#menu:hover
+{
+	opacity:1;
+}
+
+#main-area
+{
+	position:fixed;
+	left:2%;
+	top:7%;		
+	width:80%;	
+	/*
+	overflow-x:hidden;
+	overflow-y:auto;
+	*/
+	/*max-height:80%;*/
+	background-color:rgba(230,230,230,0.9);
+	box-shadow:0px 0px 3em gray;
+	text-align:center;
+	z-index:200;
+	
+	transition:border-left 0.5s, box-shadow 0.5s;
+}
+/*
+#toolbar
+{
+	position:absolute;
+	z-index: 10;
+	left:10%;
+	width:80%;
+	margin:auto;
+	background-color:rgba(240,240,240,0.9);
+	color:black;
+	font-size:0.7em;
+	text-align:center;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	box-shadow:0 0 1em black;
+	border-bottom-left-radius: 1em;
+	border-bottom-right-radius: 1em;
+	padding:0.2em;
+
+	top:-2.5em;
+
+	transition: top 0.5s;
+}
+#toolbar img
+{
+	vertical-align:middle;
+}
+.toolbar-open,
+#toolbar:hover
+{
+	top:0 !important;
+}
+#toolbar-items
+{
+	z-index: 200;
+	margin:0px;
+	padding:0px;
+}
+#toolbar-hover
+{
+	position:absolute;
+	background-color:rgba(255,0,0,0.1);
+	width:100%;
+	height:3em;
+	z-index: 0;
+}
+.toolbar-button
+{
+	opacity:0.4;
+	transition:opacity 0.5s;
+}
+.toolbar-button:hover
+{
+	opacity:1;
+}
+.toolbar-pane
+{
+	padding:0.2em;
+	padding-left:0.5em;
+	padding-right:0.5em;
+	box-shadow: inset 1px 1px 1px gray;
+	opacity:0.7;
+	transition:opacity 0.5s;
+	cursor:pointer;
+}
+.toolbar-pane:hover
+{
+	opacity:1;
+}
+.toolbar-pane img
+{
+	margin-right:0.5em;
+}
+*/
+
+
+/* New layout */
+
+#nav
+{
+	display: flex;
+	flex-direction: row;
+	
+	position:absolute;	
+	right:0px;	
+	padding:0.2em;	
+	height:2.6em;	
+}
+
+#nav input
+{
+	flex-grow:2;
+	margin:0px;
+	padding:0px;
+	width: 30em;
+	font-size:1em;	
+	line-height:2em;
+}
+
+#nav .home,
+#nav .add,
+#nav .search
+{	
+	background-repeat:no-repeat;
+	background-size:contain;	
+	width:2.6em;
+	height:2.6em;
+	cursor:pointer;	
+	vertical-align:middle;	
+}
+
+#nav .home
+{
+	background-image:url("home.svg");	
+}
+
+#nav .add
+{
+	background-image:url("add.svg");	
+	margin-left:0.5em;
+	margin-right:0.5em;
+}
+
+#nav .search
+{
+	margin-left:0.5em;
+	background-image:url("search.svg");	
+}
+
+#status
+{
+	padding:0.5em;
+	height:2em;
+	line-height:2em;
+	text-align:left;	
+	opacity:1;
+	background-color:white;
+	overflow:hidden;
+	white-space:nowrap;
+	
+	transition: background-color 1s;
+}
+
+#stats
+{
+	display: flex;
+	flex-direction: row;
+	width:100%;
+}
+
+#download
+{
+	flex-grow:2;
+	margin:0.5em;
+	padding:0.5em;
+	text-align:center;
+	box-shadow:0px 0px 0.2em black;
+	
+	background-image:url("upload.svg"), linear-gradient(-90deg, white, white);
+	background-position: 0.2em center, 0 0;
+	background-size:1.6em 1.6em, 100% 100%;
+	background-repeat:no-repeat;
+	
+	transition: opacity 0.5s;
+}
+
+#upload
+{
+	flex-grow:2;
+	margin:0.5em;
+	padding:0.5em;
+	text-align:center;
+	box-shadow:0px 0px 0.2em black;
+	
+	background-color:white;
+	background-image:url("upload.svg");
+	background-position: 0.2em center;
+	background-size:1.6em 1.6em;
+	background-repeat:no-repeat;
+	
+	transition: opacity 0.5s;
+}
+
+#peers
+{
+	flex-grow:1;
+	/*display:inline-block;
+	width:10em;
+	*/
+	margin:0.5em;
+	padding:0.5em;
+	text-align:center;
+	box-shadow:0px 0px 0.2em black;
+	cursor:pointer;
+	
+	background-color:white;
+	background-image:url("peers.svg");
+	background-position: 0.2em center;
+	background-size:1.6em 1.6em;
+	background-repeat:no-repeat;
+	
+	transition: opacity 0.5s;
+}
+
+.link-copy
+{
+	display:inline-block;
+	vertical-align:middle;
+	width:1.2em;
+	height:1.2em;
+	
+	background-color:white;
+	background-image:url("copy-clipboard.svg");
+	background-size:contain;
+	background-repeat:no-repeat;
+	
+	transition: opacity 0.5s;
+}
+.link-copy:hover
+{
+	opacity:1;
+}
+
+.link-box
+{
+	display:block;
+	cursor:pointer;
+	margin:0.5em;
+	padding:0.5em;
+	text-align:center;
+	box-shadow:0px 0px 0.2em black;
+	opacity:0.2;
+	background-color:white;
+	
+	transition: opacity 0.5s;
+}
+
+.link-box .label
+{	
+	display:inline-block;
+	width:8em;
+	text-align:right;
+}
+
+.link-box input
+{
+	width:50%;
+}
+
+.link-box.link-active
+{
+	opacity:0.7;
+}
+
+.link-box.link-active:hover
+{
+	opacity:1;
+}
+
+#thanks
+{
+	padding:1em;
+	text-align:right;
+	color:gray;
+}
+
+#thanks a
+{
+	font-weight:bold;
+	color: black;
+	text-decoration:none;
+}
+
+#webtorrent
+{
+	display:inline-block;
+	vertical-align:middle;
+	width: 10em;
+	height: 3em;
+	background-image:url("webtorrent.png");
+	background-repeat:no-repeat;
+	background-size:contain;
+	background-position:center center;
+}
+
+#viewer
+{
+	position:absolute;
+	z-index: 0;	
+	background-color:white;
+	margin: 0;
+	padding: 0;
+	border: none;
+	
+	text-align:center;
+	
+	width:100%;
+}
+
+.viewer-primary
+{
+	width:100%;
+	height:100%;	
+	overflow: hidden;
+}
+
+.viewer-primary iframe,
+.viewer-primary video,
+.viewer-primary audio,
+.viewer-primary object
+{
+	width:100%;
+	height:100%;
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+.viewer-primary audio
+{
+	width: 100%;
+	height: 50%;
+	position:relative;
+	overflow: hidden;
+	top:calc(50% - 0px);
+}
+
+#viewer img
+{	
+	display:inline-block;		
+	max-width:95%;
+	margin:1em;
+	box-shadow:0px 0px 1em black;	
+}
+
+#peers-graph
+{
+	position:absolute;	
+	padding:0px;
+	margin:0px;
+	z-index:3000;	
+	background-color:rgba(255,255,255,0.9);
+	box-shadow:0px 0px 1em black;	
+}
+
+.file
+{
+	display:inline-block;
+	margin:0.5em;
+	padding:0.5em;
+	box-shadow: inset 1px 1px 1px gray;
+	text-align:center;
+	
+	transition:background-color 1s;
+}
+
+.file-save
+{
+	display:inline-block;
+	width:1em;
+	height:1em;
+	margin-left:1em;
+	background-image:url("save.svg");	
+	background-size:contain;
+	background-repeat:no-repeat;
+	
+	transition:opacity 1s;
+}
+
+.file-pending
+{
+	background-color:rgba(240,241,169,1);
+}
+
+.file-done
+{
+	background-color:rgba(180,236,180,1);
+}
+
+@media screen and (max-width: 1024px)
+{
+	#main-area
+	{
+		width:90%;
+	}	
+	
+	#nav
+	{
+		position:static;
+		width:auto;		
+	}
+	
+	#nav input
+	{
+		width: 50%;
+	}
+	
+	#stats
+	{
+		flex-direction: column;
+	}
+	
+	#download,
+	#upload,
+	#peers
+	{
+		display:block;
+		width:auto;
+	}
+	
+}
+
+@media only screen and (max-width: 640px)
+{
+	#main-area
+	{
+		font-size:0.6em;
+	}
+}

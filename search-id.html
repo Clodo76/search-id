@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+
+<!--
+// https://search-id.org
+// 
+// This file is part of search-id.org project.
+//
+// search-id is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// search-id is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with this file. If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<html>
+	<head>
+		<title>search-id.org</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="theme-color" content="red">
+		<meta name="description" content="search-id c44df820ee4e93629ade12e94c0a819a12b1fa23" />
+		<meta name="robots" content="noindex, nofollow">
+		<meta name="google" content="nositelinkssearchbox" />
+		<meta name="google" content="notranslate" />
+		
+		<link rel="shortcut icon" href="embedded/favicon.ico" type="image/x-icon">
+		<link rel="icon" href="embedded/favicon.ico" type="image/x-icon">
+
+		<link rel="stylesheet" type="text/css" href="embedded/search-id.css" />
+
+		<script src="embedded/webtorrent.min.js"></script>
+		<script src="embedded/p2p-graph.min.js"></script>		
+		<script src="embedded/jquery-3.3.1.min.js"></script>
+		<script src="embedded/bchaddrjs-0.2.1.min.js"></script>
+		<script src="embedded/search-id.js"></script>
+		<script src="embedded/search-id.lang.en.js"></script>
+		<script src="embedded/search-id.lang.it.js"></script>
+		<script src="embedded/options.js"></script>
+	</head>
+
+	<body style='padding:0;margin:0;font-family:Helvetica;background-color:rgba(242,242,242,1);' onload="Id2Web.start();">
+		<div style="display:none" id="main-area">
+			<form method="post" action="?act=upload" id='uploadForm' enctype="multipart/form-data">
+				<input id="files-upload" name="file[]" type="file" multiple/>        
+			</form>			
+			<div id='nav'>
+				<a class='home hover-effect tooltip-bottom'></a>
+				<a class='add hover-effect tooltip-bottom'></a>				
+				<input type='text'>
+				<a class='search hover-effect tooltip-bottom'></a>
+			</div>
+			<div id='status'></div>			
+			<div id='stats'>
+				<div id='download'>
+					<div id='download-progress'></div>
+					<div id='download-text'></div>
+				</div>
+				<div id='upload'>					
+				</div>
+				<div id='peers' class='hover-effect'></div>			
+			</div>			
+			<div id='viewers'>
+				<div id='auto'></div>
+				<div id='list'></div>
+			</div>			
+			<div id='link-share' class='link-box'>
+				<span class='label'>Share:</span>
+				<input type='text'>
+				<a class='link-copy'></a>
+			</div>			
+			<div id='link-embed' class='link-box'>
+				<span class='label'>Embed HTML:</span>
+				<input type='text'>
+				<a class='link-copy'></a>
+			</div>			
+			<div id='link-magnet' class='link-box'>
+				<span class='label'>Magnet link:</span>
+				<input type='text'>
+				<a class='link-copy'></a>
+			</div>						
+			<div id='files'></div>
+			<div id='thanks'>
+				search-id.org <span id='version'></span> by <a class='hover-effect' target='_blank' href='https://twitter.com/Clodo76'>Clodo</a>
+				<br>
+				Frontend powered by
+				<a id='webtorrent' class='hover-effect tooltip-bottom' data-tooltip='It rocks!' target='_blank' href='https://webtorrent.io'></a>				
+			</div>
+		</div>
+		<div id='menu'></div>
+		<div id='play'></div>
+		<div id='viewer'></div>
+		<!--
+		<div id="toolbar">
+			<div id="toolbar-items">				
+				<a title="search-id.org 0.1" target="_blank" href="https://github.com/Clodo76/id2web" class="toolbar-button" id="toolbar-about"><img src="needembed/about.png" "></a>
+				<span title="Downloading" class="toolbar-pane" id="toolbar-name"><img src="needembed/download.png">
+					<span id="toolbar-name-info"></span>
+					<a title="Magnet (Torrent)" href="#" style="display:none" class="toolbar-button" id="toolbar-magnet"><img src="needembed/magnet.png"></a>
+					<a title="Share (Web)" href="#" style="display:inline-block" class="toolbar-button" id="toolbar-link" target="_blank"><img src="needembed/share.png"></a>
+					<a title="Save file" href="#" style="display:none" class="toolbar-button" id="toolbar-download"><img src="needembed/save.png"></a>
+				</span>
+				<span title="Uploading" class="toolbar-pane" id="toolbar-seed"><img src="needembed/upload.png"><span id="toolbar-seed-info"></span></span>
+				<span title="Peers" class="toolbar-pane" id="toolbar-peers"><img src="needembed/peers.png"> <span id="toolbar-peers-n"></span></span>
+			</div>
+			<div id="toolbar-hover"></div>
+		</div>
+		-->
+	</body>
+</html>
