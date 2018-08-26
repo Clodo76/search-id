@@ -25,8 +25,8 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="theme-color" content="red">
-		<meta name="description" content="search-id c44df820ee4e93629ade12e94c0a819a12b1fa23" />
-		<meta name="robots" content="noindex, nofollow">
+		<meta name="description" content="p2p content system" />
+		<meta name="robots" content="index, nofollow">
 		<meta name="google" content="nositelinkssearchbox" />
 		<meta name="google" content="notranslate" />
 		
@@ -41,64 +41,66 @@
 		<script src="embedded/p2p-graph.min.js"></script>		
 		<script src="embedded/jquery-3.3.1.min.js"></script>
 		<script src="embedded/bchaddrjs-0.2.1.min.js"></script>
+		<script src="embedded/marked.min.js"></script>				
+
 		<script src="embedded/search-id.js"></script>
 		<script src="embedded/search-id.lang.en.js"></script>		
+		<script src="embedded/search-id.lang.it.js"></script>		
 		<script src="embedded/options.js"></script>
 	</head>
 
-	<!-- TOFIX: css are ignored for body, why? Workaround: inline-style. -->
-	<body style='padding:0;margin:0;font-family:Helvetica;background-color:rgba(242,242,242,1);' onload="Id2Web.start();">
+	<body onload="Id2Web.start();">
+		<noscript>
+			<div class='fatal'>JavaScript required.</div>
+		</noscript>
 		<div style="display:none" id="main-area">
 			<form method="post" action="?act=upload" id='uploadForm' enctype="multipart/form-data">
 				<input id="files-upload" name="file[]" type="file" multiple/>        
 			</form>			
 			<div id='nav'>
-				<a class='home hover-effect tooltip-bottom'></a>
+				<a class='home hover-effect tooltip-right'></a>
 				<a class='add hover-effect tooltip-bottom'></a>				
 				<input type='text'>
-				<a class='search hover-effect tooltip-bottom'></a>
+				<a class='search hover-effect tooltip-left'></a>
 			</div>
 			<div id='status'></div>			
 			<div id='stats'>
-				<div id='download'>
+				<div id='download' class='tooltip-bottom'>
 					<div id='download-progress'></div>
 					<div id='download-text'></div>
 				</div>
-				<div id='upload'>					
+				<div id='upload' class='tooltip-bottom'>
 				</div>
-				<div id='peers' class='hover-effect'></div>			
+				<div id='peers' class='hover-effect tooltip-bottom'></div>			
+				<div id='tools'>
+					<div id='layout'>
+						<span id='layout-title'>Layout:</span>
+						<a id='layout-auto' class='hover-effect tooltip-bottom'></a>
+						<a id='layout-list' class='hover-effect tooltip-bottom'></a>
+						<a id='layout-binary' class='hover-effect tooltip-bottom'></a>
+						<!--<a id='layout-none' class='hover-effect tooltip-bottom'></a>-->
+					</div>
+					<div id='share'>
+						<span id='share-title'>Share:</span>
+						<a id='share-www' class='hover-effect tooltip-bottom'></a>
+						<a id='share-html' class='hover-effect tooltip-bottom'></a>
+						<a id='share-magnet' class='hover-effect tooltip-bottom'></a>
+						<a id='share-torrent' class='hover-effect tooltip-bottom'></a>
+					</div>
+				</div>
 			</div>			
-			<div id='viewers'>
-				<div id='auto'></div>
-				<div id='list'></div>
-			</div>			
-			<div id='link-share' class='link-box'>
-				<span class='label'>Share:</span>
-				<input type='text'>
-				<a class='link-copy'></a>
-			</div>			
-			<div id='link-embed' class='link-box'>
-				<span class='label'>Embed HTML:</span>
-				<input type='text'>
-				<a class='link-copy'></a>
-			</div>			
-			<div id='link-magnet' class='link-box'>
-				<span class='label'>Magnet link:</span>
-				<input type='text'>
-				<a class='link-copy'></a>
-			</div>						
 			<div id='files'></div>
 			<div id='credits'>
 				search-id <span id='version'></span> by <a class='hover-effect' target='_blank' href='https://twitter.com/Clodo76'>Clodo</a>. 				
 				-
-				<a target='_blank' href='https://github.com/Clodo76/search-id' class='hover-effect tooltip-top social github' data-tooltip='GitHub'></a>
-				<a target='_blank' href='https://twitter.com/SearchID2' class='hover-effect tooltip-top social twitter' data-tooltip='Twitter'></a>
-				<a target='_blank' href='https://t.me/joinchat/CANCWhA7RdXTISGhvyWKcg' class='hover-effect tooltip-top social telegram' data-tooltip='Telegram'></a>
+				<a target='_blank' href='https://github.com/Clodo76/search-id' class='hover-effect tooltip-left social github' data-tooltip='GitHub'></a>
+				<a target='_blank' href='https://twitter.com/SearchID2' class='hover-effect tooltip-left social twitter' data-tooltip='Twitter'></a>
+				<a target='_blank' href='https://t.me/joinchat/CANCWhA7RdXTISGhvyWKcg' class='hover-effect tooltip-left social telegram' data-tooltip='Telegram'></a>
 				-
-				<a target='_blank' href='https://www.gnu.org/licenses/gpl-3.0.html' class='hover-effect tooltip-top' data-tooltip='Open Source License'>GPLv3</a> 
+				<a target='_blank' href='https://www.gnu.org/licenses/gpl-3.0.html' class='hover-effect tooltip-left' data-tooltip='Open Source License'>GPLv3</a> 
 				<br>
 				Powered by
-				<a id='webtorrent' class='hover-effect tooltip-bottom' data-tooltip='It rocks!' target='_blank' href='https://webtorrent.io'></a>				
+				<a id='webtorrent' class='hover-effect tooltip-left' data-tooltip='It rocks!' target='_blank' href='https://webtorrent.io'></a>				
 			</div>
 		</div>
 		<div id='menu'></div>

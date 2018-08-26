@@ -104,15 +104,6 @@
 				color:gray;
 			}
 			
-			#menuhint
-			{
-				position:absolute;
-				left:6%;
-				top:1%;
-				line-height:5%;
-				padding:0.3em;
-			}
-			
 			.block0
 			{
 				text-align:center;
@@ -149,18 +140,13 @@
 			
 		</style>
 	</head>
-	<body>
-		<div id='menuhint'>&#x21e0;Menu</div>
-		<div id='revision'>welcome.html 0.4 2018/08/09</div>
+	<body>		
 		<div class='block0'>
 			<p>
-				This is an APP (as single html file, download <a download target='_parent' href='search-id.min.html'>here</a>) that search and show content of an ID (multiple formats supported, see below) only with P2P technologies.
-			</p>
-			<p>
-				It's totally privacy-aware. The html itself don't collect anything, there isn't external required references/urls fetched. Only webtorrent-trackers keep data, but not enough for identification.
-			</p>
+				This is an APP (as single html file, download <a download href='search-id.min.html'>here</a>) that search and show content of an ID (multiple formats supported, see below) only with P2P technologies.
+			</p>			
 			<p class='subtitle'>
-				Open the left menu for stuffs. Add content to the network with the + button. Return to this page with the HOME button.
+				Open the right menu for stuffs. Add content to the network with the + button. Return to this page with the HOME button.
 			</p>			
 		</div>
 		
@@ -168,12 +154,13 @@
 			<h1>Directories</h1>
 			
 			<p>I hope i can publish here link to html pages created by the community with this system, to build a network of serverless contents.</p>
+			<iframe style='width:100%;height:450px;border:0px' src='https://search-id.org/pool/tagcloud'></iframe>
 		</div>
 		
 		<div class='block1'>
 			<h1>Why it rocks</h1>
 			<p>
-				It's a single HTML page. Without any external references. It works if opened in localhost (file:///). Download <a download target='_parent' href='search-id.min.html'>here</a>.
+				It's a single HTML page. Without any external references. It works if opened in localhost (file:///). Download <a download href='search-id.min.html'>here</a>.
 				<br>
 				This is a project to promote the decentralization of contents in respect of net-neutrality and freedom.
 				Feel free to share it or host it on your website.
@@ -186,7 +173,7 @@
 			<h1>Examples - Case study</h1>
 			
 			<div class='box'>
-				<a target='_parent' href='?08ada5a7a6183aae1e09d831df6748d566095a10'>
+				<a href='?08ada5a7a6183aae1e09d831df6748d566095a10'>
 					Sintel.mp4
 				</a> 
 				<div class='center'>
@@ -199,19 +186,19 @@
 					It's possible to click Menu -> + , build an ID of a video file, share the link in a private WhatsApp group.
 					Who view the content, help others as a seed.
 					<br>
-					Note: if opened on another PC in the same lan, is streamed over lan.
+					Note: if opened on another PC in the same lan, is streamed over lan. This system can be used to share files between devices in lan, by sharing only ID/Url via IM like WhatsApp or Telegram.
 				</p>
 			</div>
 			
 			<div class='box'>
-				<a target='_parent' href='?1d3327019f8de7f8674cf3adde6f2b9e451a50b2'>
+				<a href='?1d3327019f8de7f8674cf3adde6f2b9e451a50b2'>
 					torbrowser-install-7.5.3_en-US.exe
 				</a> 
 				<div class='center'>
 					<iframe style='width:640px;height:200px;' data-id='1d3327019f8de7f8674cf3adde6f2b9e451a50b2'></iframe>
 				</div>
 				<p>
-					<a target='_blank' href='https://www.torproject.org/projects/gettor'>GetTor robot</a> provide alternative methods to download Tor Browser, specially for situations where access to Tor Project's official website and mirrors is blocked. 					
+					<a href='https://www.torproject.org/projects/gettor'>GetTor robot</a> provide alternative methods to download Tor Browser, specially for situations where access to Tor Project's official website and mirrors is blocked. 					
 				</p>
 				<p>
 					The link above (Windows bundle as example) search it in the p2p network. So, people can obtain Tor by know only the above ID and have access to a copy of search-id html page.
@@ -222,11 +209,11 @@
 			</div>
 
 			<div class='box'>
-				This system can be used in combo with <a target='_blank' href='https://memo.cash/'>memo.cash</a>, a Social Network based on Dapp build on Bitcoin Cash. Example: <a target='_blank' href='https://memo.cash/post/503af73303569fe6b4e72ec58867a2a241d7c45ebd23bdefd97d25826d18ef78'>A post on memo.cash</a>. The post ID is a BCH transaction, use ID here to render the content.
+				This system can be used in combo with <a href='https://memo.cash/'>memo.cash</a>, a Social Network based on Dapp build on Bitcoin Cash. Example: <a href='https://memo.cash/post/503af73303569fe6b4e72ec58867a2a241d7c45ebd23bdefd97d25826d18ef78'>A post on memo.cash</a>. The post ID is a BCH transaction, use ID here to render the content.
 			</div>
 			
 			<div class='box'>
-				<a target='_parent' href='?9c2add2df784e05278ed7f611b9ecb55da323d89'>
+				<a href='?9c2add2df784e05278ed7f611b9ecb55da323d89'>
 					moonscape.html
 				</a> 
 				<div class='center'>
@@ -250,14 +237,15 @@
 				<li>
 					<p>Magnet/torrent infohash</p>
 					<p>
-						Example: <a target="_blank" href="?08ada5a7a6183aae1e09d831df6748d566095a10">Video MP4, Sintel</a>
+						Example: <a href="?08ada5a7a6183aae1e09d831df6748d566095a10">Video MP4, Sintel</a>
 					</p>
 				</li>
 				<li>
 					<p>Bitcoin (or Bitcoin Cash) address - Torrent hash is extracted from the latest outgoing transaction from the address ID, via OP_RETURN.</p>
-					<p>This approach is based on <a target='_blank' href='https://github.com/elendirx/web2web'>elendirx/web2web idea.</a></p>
+					<p>This approach is based on <a href='https://github.com/elendirx/web2web'>elendirx/web2web idea.</a></p>
 					<p>People can share a bitcoin address, that point to the content. After, people can update the content without need to change the ID, by adding a transaction.</p>
 					<p>Example: This <i>welcome.html</i> you are reading. The ID is always the same, the content changes when we update it.</p>
+					<p>If you want to publish something with this method, contact us in our Telegram group.</p>
 				</li>
 				
 				<li>
@@ -265,14 +253,14 @@
 						Bitcoin (or Bitcoin Cash) transaction						
 					</p>				
 					<p>
-						Example:  <a target='_blank' href='https://www.blockchain.com/it/btc/tx/f802e59b8aa2640b587489cdbf2477d645f810e4fafd92df549bb288337648d3'> this (link to blockchain.com)</a> Bitcoin transaction
+						Example:  <a href='https://www.blockchain.com/it/btc/tx/f802e59b8aa2640b587489cdbf2477d645f810e4fafd92df549bb288337648d3'> this (link to blockchain.com)</a> Bitcoin transaction
 						contain <code>EW magnet:?xt=urn:btih:6a9759bffd5c0af65319979fb7832189f4f3c35d</code> (via OP_RETURN), then the torrent is located via WebTorrent.
 					</p>				
 					<p>
-						This example was maded with <a target='_blank' href='https://eternitywall.it/'>https://eternitywall.it/</a>. Thanks.
+						This example was made with <a href='https://eternitywall.it/'>https://eternitywall.it/</a>. Thanks.
 					</p>
 					<p>
-						Example: <a target="_blank" href="?f802e59b8aa2640b587489cdbf2477d645f810e4fafd92df549bb288337648d3">Video MP4, Sintel</a>
+						Example: <a href="?f802e59b8aa2640b587489cdbf2477d645f810e4fafd92df549bb288337648d3">Video MP4, Sintel</a>
 					</p>
 				</li>			
 			</ul>
@@ -281,23 +269,21 @@
 		<div class='block2'>
 			<h2>Types of content supported (inline viewer)</h2>
 			<ul>
-				<li>Video</li>
+				<li>Video (with SRT and VTT subtitles)</li>
 				<li>Audio</li>
-				<li>PDF</li>
-				<li>Binary</li>
-				<li>Any other kind of files</li>
+				<li>PDF</li>				
+				<li>Markdown (original + CommonMark + GitHub flavored) - <a href='?07541fec53c1f2dd28516eb0a99b8e71c182a5f6'>sample/reference</a> (Extension: .md , .md.txt)</li>
+				<li>BB-Code - <a href='?678b5a80842351d44f1850d87ba29caae73cd203'>sample/reference</a> (Extension: .bbc , .bbcode, bbc.txt, bbcode.txt)</li>
+				<li>Any other kind of files as binary</li>
 			</ul>
-			We plan to support other kind of viewer, like gallery, auto-render markdown or wiki syntax, etc.
+			We plan to support other kind of viewer, like gallery, wiki syntax, etc.
 		</div>
 		
 		<div class='block1'>
 			<h2>Parameters</h2>
 			<ul>
-				<li><i>autoplay</i> - Boolean, default: false</li>
-				<li><i>trackers</i> - Trackers, for overwrite the default in bundle
-				<li><i>ws</i> - String, web-seeding url.
-					<br>
-					Example: <a target='_blank' href='https://search-id.org/?id=08ada5a7a6183aae1e09d831df6748d566095a10&ws=https://webtorrent.io/torrents/'>link</a></li>
+				<li><i>autoplay</i> - Recommended to false if used as embedded widget. Default: false</li>
+				<li><i>trackers</i> - Trackers, for overwrite the defaults in bundle				
 			</ul>
 		</div>
 		
@@ -324,35 +310,78 @@
 					<b>dev.html</b> - Development tools, generally test links.
 				</li>			
 			</ul>
+
+			<h2>Domain search-id.org</h2>
 			
 			<p>
-				The domain search-id.org run a copy of these files, and also a WSS and UDP tracker.
-				<br>
-				Maybe in future we can hosts also BTC and BCH explorer for the Transaction/Address -> ID feature.
+				The domain search-id.org run:
+				<ul>
+					<li>a copy of the above files</li>
+					<li>a WebTorrent and UDP/TCP tracker</li>
+					<li>a Pool server instance (experimental)</li>
+				</ul>	
+				We also run a dedicated server as Pool client (experimental)				
 				<br>
 				Remember: anyone can host the <i>search-id.min.html</i> file, publish a mirror, keep a copy in an usb key.
 			</p>
+
+			<h2>Libraries</h2>
+			<ul>
+				<li><a src='https://github.com/webtorrent/webtorrent'>WebTorrent</a> 0.102.0 - P2P contents</li>
+				<li><a src='https://github.com/feross/p2p-graph'>p2p-graph</a> v1.2.2 - UI, wires list</li>
+				<li><a src='https://jquery.com/'>jQuery</a> 3.3.1 - UI</li>
+				<li><a src='https://github.com/bitcoincashjs/bchaddrjs'>bchaddrjs</a> 0.2.2 - BCH Explorer</li>				
+				<li><a src='https://github.com/markedjs'>Marked</a> 0.4.0 - For rendering Markdown</li>
+			</ul>
+
+			<h2>Changelog</h2>
+			<p>
+				v0.4
+				<ul>
+					<li>Experimental notification for support pool servers</h1>					
+					<li>Javascript support warning</h1>
+					<li>Priority to readme.* or index.* files</li>
+					<li>Markdown support (with GitHub flavored)</li>
+					<li>BBCodes support (with custom codes)</li>
+					<li>VTT support</li>
+					<li>SRT support (built-in conversion to VTT)</li>
+					<li>Better rendering</li>
+					<li>Auto-adaption of target container in nested html links</li>
+					<li>Custom options in url</li>
+					<li>Libraries list</h1>
+					<li>Italian translation</h1>
+					<li>A lots of code cleaning</h1>
+					<li>Misc bugfix</h1>
+				</ul>
+			</p>
+			<p>
+				v0.1 - v0.3 - First public release
+			</p>
 		</div>
 		
-		
-		
 		<div class='block1'>
+			<h2>Limits</h2>
+			<ul>
+				<li>
+					Don't work well with biggest file (>1gb). Depends on browsers.
+				</li>
+			</ul>
+
 			<h2>TODO</h2>
 			<ul>
 				<li>
-					Don't work well with biggest file (>1gb).
+					Experimental status: It's currently under stress-test a pool-server (written in PHP/MySQL) and pool-client (written in NodeJS) of this system.
+					<br>
+					Basically, <i>search-id.html</i> talks with pool-servers about the requested contents, and the pool-server coordinate pool-clients that
+					<ol>
+						<li>act as a proxy between bittorrent and webtorrent clients</li>
+						<li>keep alive contents (avoid dead-share).</li>
+					</ol>					
+					<br>
+					If you have a dedicated-server and want to contribute with a pool-client (basically an automated seedbox), contact our Telegram group.
 				</li>
 				<li>
 					Implement Direct link to a file inside a torrent					
-				</li>
-				<li>
-					Better embedding view for small size iframe.
-				</li>
-				<li>
-					Code cleaning. This is a draft/alpha. Study StandardJS.
-				</li>				
-				<li>
-					Support of .SRT files for video. Maybe use an alternative video-player.
 				</li>
 				<li>
 					Speed charts.
@@ -367,8 +396,11 @@
 					More documentation
 				</li>								
 				<li>
-					Warning if javascript is not active. Works in all recent browsers? Enumerate it.
-				</li>				
+					Better support warning. Works in all recent browsers? Enumerate it.
+				</li>
+				<li>
+					Options for opt-out seeding, pool notification etc.
+				</li>
 				<li>
 					Test against Mozilla Observatory, implement CSP where possible.
 				</li>
@@ -378,15 +410,17 @@
 		<div class='block2'>
 			<h1>Credit and Contact</h1>
 			<p>
-				This project is developed by <a target='_blank' href='https://www.clodo.it'>Clodo</a> and it's a frontend to the great <a target='_blank' href='https://webtorrent.io/'>WebTorrent</a> project.
+				This project is developed by <a href='https://www.clodo.it'>Clodo</a> and it's a frontend to the great <a href='https://webtorrent.io/'>WebTorrent</a> project.
 			</p>
 			<p>
-				It's released under <a target='_blank' href='https://www.gnu.org/licenses/gpl-3.0.html'>GPLv3</a>. Thinking about <a target='_blank' href='https://www.kopimi.com/'>Kopimi</a> adoption.
+				It's released under <a href='https://www.gnu.org/licenses/gpl-3.0.html'>GPLv3</a>. Thinking about <a href='https://www.kopimi.com/'>Kopimi</a> adoption.
 			</p>
 			<p>
-				Hosted on <a target='_blank' href='https://github.com/Clodo76/search-id'>GitHub</a>. <a target='_blank' href='https://twitter.com/SearchID2'>Twitter</a> and <a target='_blank' href='https://t.me/joinchat/CANCWhA7RdXTISGhvyWKcg'>Telegram Group</a> for testing and feedback.				
+				Hosted on <a href='https://github.com/Clodo76/search-id'>GitHub</a>. <a href='https://twitter.com/SearchID2'>Twitter</a> and <a href='https://t.me/joinchat/CANCWhA7RdXTISGhvyWKcg'>Telegram Group</a> for testing and feedback.				
 			</p>
 		</div>
+
+		<div id='revision'>welcome.html 0.5 2018/08/26</div>
 		
 	</body>
 </html>

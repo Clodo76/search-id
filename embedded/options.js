@@ -15,15 +15,29 @@
 // You should have received a copy of the GNU General Public License
 // along with this file. If not, see <http://www.gnu.org/licenses/>.
 
-Id2Web.home = "13sMAwAwK624CVJzGnro6QxqnhpXbieZ8F";
-Id2Web.trackers = [
-	"udp://search-id.org",
-	"udp://explodie.org:6969",
-	"udp://tracker.coppersurfer.tk:6969",
-	"udp://tracker.empire-js.us:1337",
-	"udp://tracker.leechers-paradise.org:6969",
-	"udp://tracker.opentrackr.org:1337",
-	"wss://search-id.org/wss",
-	"wss://tracker.btorrent.xyz",
-	"wss://tracker.openwebtorrent.com"
-];
+Id2Web.home = '13sMAwAwK624CVJzGnro6QxqnhpXbieZ8F';
+Id2Web.fileSizeLimit = 2 * 1000 * 1000 * 1000; // 2GB
+Id2Web.trackers = {
+	always: [
+		'wss://search-id.org/wss',
+		'wss://tracker.btorrent.xyz',
+		'wss://tracker.openwebtorrent.com',
+		'udp://search-id.org:8000',
+		'udp://explodie.org:6969',
+		'udp://tracker.coppersurfer.tk:6969',
+		'udp://tracker.empire-js.us:1337',
+		'udp://tracker.leechers-paradise.org:6969',
+		'udp://tracker.opentrackr.org:1337'
+	],
+	blacklist: [
+		'udp://tracker.mg64.net:2710/announce',
+		'udp://tracker.openbittorrent.com:80/announce',
+		'udp://explodie.org:6969'
+	]
+}
+Id2Web.pools = [
+	{
+		url:'https://search-id.org/pool',
+		key:''
+	}	
+]

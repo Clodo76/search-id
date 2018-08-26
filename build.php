@@ -96,7 +96,7 @@ function main()
 			
 			if( ($mime != "image/svg+xml") &&
 			    ($mime != "image/png") )
-				buildLog("Unexpected mime-type: " . $mime, true);
+				buildLog("Unexpected mime-type: " . $mime . " for " . $path, true);
 		}
 
 		/*
