@@ -17,11 +17,11 @@
 
 var Id2Web =
 {
-	version: '0.4α',
+	version: '0.8α',
 	defaultParams: 
 	{
 		id: '',
-		autoplay: true,
+		autoplay: (window.self === window.top),
 		layout: 'auto',
 		direct: false,
 		file: '',
@@ -32,7 +32,7 @@ var Id2Web =
 		markdown: ['md','md.txt'],
 		bbcode: ['bbc','bbcode','bbc.txt','bbcode.txt'],
 		image: ['png','jpg','jpeg','gif','svg'],
-		pre: ['ascii','txt','js','css','vtt','srt'],
+		pre: ['ascii','txt','js','css','vtt','srt','csv'],
 		video: ['mp4','webm','ogv','mkv'],
 		subtitles: ['vtt','srt'],
 		audio: ['ogg','mp3','wav'],
@@ -46,6 +46,7 @@ var Id2Web =
 	lang: {},
 	client: null,
 	params: null,
+	library: null,
 	graph: null,
 	speedDownLast: 0,
 	speedDownTime: 0,
@@ -54,19 +55,28 @@ var Id2Web =
 	playTime: 0,
 	poolTime: 0,
 	fetchMethods: {},
+	animationSpeed: 500,
 
 	pendingDomTrack: [],
+
+	domTooltip: null,
 
 	start: function () {
 
 		console.log('search-id (' + Id2Web.instanceId + '): Version ' + Id2Web.version)
 		this.params = this.getParamsFromUrl(Id2Web.defaultParams)
 		console.log('search-id (' + Id2Web.instanceId + '): Options', this.params)
+	
+		Id2Web.library = JSON.parse(localStorage.getItem('library'));
+		if(!Id2Web.library)
+			Id2Web.library = {};
 
 		Id2Web.client = new WebTorrent()	
 
 		if (this.params['id'] == '')
+		{
 			this.params['id'] = this.home
+		}
 
 		this.params['id'] = this.params['id']
 
@@ -104,20 +114,66 @@ var Id2Web =
 
 		$("#download").attr("data-tooltip",Id2Web.getLang("tooltip.download"))
 		$("#upload").attr("data-tooltip",Id2Web.getLang("tooltip.upload"))
-		$("#peers").attr("data-tooltip",Id2Web.getLang("tooltip.peers"))
 
-		$("#peers").click(function (e) {
+		$("#peers").hide();
+		$("#peers-button").attr("data-tooltip",Id2Web.getLang("tooltip.peers"))		
+		$("#peers-button").click(function (e) {
 			var torrent = Id2Web.torrentGetCurrent()
 			
-			if( (torrent != null) && ($("#peers-graph").length == 0) )
-			{
-				Id2Web.peersGraphShow()
+			//if( (torrent != null) && ($("#peers-graph").length == 0) )
+			if( (torrent === null) || ($("#peers").is(":visible")) )
+			{	
+				Id2Web.peersGraphHide()							
 			}
 			else
 			{
-				Id2Web.peersGraphHide()				
+				Id2Web.peersGraphShow()				
 			}
 		})	
+
+		$("#library").hide();
+		$("#library-button").attr("data-tooltip",Id2Web.getLang("tooltip.library"))
+		$("#library-button").text(Id2Web.getLang("tooltip.library"));
+		$("#library-welcome").text(Id2Web.getLang("library.welcome"));
+		$("#library-button").click(function (e) {
+
+			if($("#library-items").children().length>0)
+			{
+				$("#library").slideUp(Id2Web.animationSpeed, function() {
+					$("#library-items").empty();
+				})
+			}
+			else
+			{
+				// Build Recent tiles
+				for (var subId in Id2Web.library) 
+				{
+					var domItem = $("<div>");
+					domItem.addClass("library-item");
+					var domIFrame = $("<iframe>");			
+					domIFrame.css("width", "768px");	
+					domIFrame.css("height", "432px");
+					domIFrame.attr("src", window.location.href.split('?')[0] + "?id=" + subId + "&autoplay=true");
+					domItem.append(domIFrame);
+					var domRemove = $("<div>");
+					domRemove.text(Id2Web.getLang("library.remove"));
+					domRemove.addClass("library-remove")
+					domRemove.click(function() {
+						$(this).parent().slideUp(Id2Web.animationSpeed, function() {
+							$(this).remove();
+							delete Id2Web.library[subId];
+							Id2Web.librarySave();
+						});
+					})
+					domItem.append(domRemove);
+					$("#library-items").append(domItem);
+				}
+
+				$("#library").slideDown(Id2Web.animationSpeed);
+			}
+
+			
+		})
 
 		$("#layout-auto").attr("data-tooltip",Id2Web.getLang("tooltip.layout.auto"))
 		$("#layout-auto").click(function (e) {
@@ -198,13 +254,21 @@ var Id2Web =
 			Id2Web.play();
 		});
 
-		$("#version").text(Id2Web.version);		
+		$("#version").text(Id2Web.version);	
+
+		if(Id2Web.isFrameMode())
+		{
+			$("#nav").hide();			
+			$("#library-button").hide();
+		}
+		
+		Id2Web.initDom($("#main-area"));		
 
 		// TOFIX: Ignored style in css for body, don't know why
 		$("body").css("padding",0);
 		$("body").css("margin",0);
 		$("body").css("font-family","Helvetica");
-		$("body").css("background-color","rgba(242,242,242,1)");
+		//$("body").css("background-color","rgba(242,242,242,1)");
 
 		Id2Web.resetUI()
 
@@ -233,8 +297,8 @@ var Id2Web =
 		$("#download").css("background-size", "1.6em 1.6em, 0% 100%");
 		$("#upload").text("Upload: -");
 		$("#upload").css("opacity",0.2);
-		$("#peers").text(Id2Web.getLang("stats.peers","?"));
-		$("#peers").css("opacity",0.2);
+		$("#peers-button").text(Id2Web.getLang("stats.peers","?"));
+		$("#peers-button").css("opacity",0.2);
 
 		$("#files").empty();
 
@@ -274,7 +338,7 @@ var Id2Web =
 		
 		if(Id2Web.playTime == 0)
 		{
-			$("#status").text(Id2Web.getLang("status.waiting"));
+			Id2Web.changeStatus(Id2Web.getLang("status.waiting"));
 			Id2Web.statusColor("white");
 		}
 		
@@ -286,8 +350,8 @@ var Id2Web =
 		{
 			var now = (new Date()).getTime();
 
-			$("#peers").text(Id2Web.getLang("stats.peers",torrent.numPeers));
-			$("#peers").css("opacity","");
+			$("#peers-button").text(Id2Web.getLang("stats.peers",torrent.numPeers));
+			$("#peers-button").css("opacity","");
 
 			if(torrent.uploaded != 0)
 			{
@@ -322,7 +386,7 @@ var Id2Web =
 				$("#download").css("opacity","");
 
 				var percProgress = (100 * torrent.progress).toFixed(1) + "%";
-				$("#status").text(Id2Web.getLang("status.download", percProgress, Id2Web.millisecondsToStr(torrent.timeRemaining)));
+				Id2Web.changeStatus(Id2Web.getLang("status.download", percProgress, Id2Web.millisecondsToStr(torrent.timeRemaining)));
 				Id2Web.statusColor("yellow");
 				$("#download").css("background-size", "1.6em 1.6em, " + percProgress + " 100%");
 			}
@@ -333,7 +397,7 @@ var Id2Web =
 				$("#download").css("opacity","");
 				$("#download").css("background-size", "1.6em 1.6em, 100% 100%");
 
-				$("#status").text(Id2Web.getLang("status.seeding", torrent.numPeers));
+				Id2Web.changeStatus(Id2Web.getLang("status.seeding", torrent.numPeers));
 				Id2Web.statusColor("green");
 			}
 
@@ -399,6 +463,20 @@ var Id2Web =
 				}
 			}
 		}
+	},
+
+	librarySave: function()
+	{
+		localStorage.setItem('library', JSON.stringify(Id2Web.library));
+	},
+
+	resizeIframe: function()
+	{
+		// If detect it's inside an iframe, for an autoresize.
+		// Don't need right now
+		/*
+		$(frameElement).css("height", $(document).height() + "px")
+		*/
 	},
 
 	updateUiMagnetLink: function(magnet)
@@ -550,16 +628,7 @@ var Id2Web =
 		}
 		shadow = color2;		
 		$("#main-area").css("border-left","1em solid " + color2);
-		$("#main-area").css("box-shadow","0px 0px 1em " + shadow);
-		/*
-		$("body").css('background-color',color)
-		if(color == "white")
-			$("body").css('padding-top','0px')
-		else
-			$("body").css('padding-top','50px')
-		*/
-
-		//$("body").css('background-color',color)
+		$("#main-area").css("box-shadow","0 6px 26px 0 " + shadow);
 		if( (color == "green") || (color == 'white') )
 			$("body").css('border-top','0px solid ' + color2)
 		else
@@ -567,6 +636,13 @@ var Id2Web =
 
 		var metaThemeColor = document.querySelector("meta[name=theme-color]");
 		metaThemeColor.setAttribute("content", color);
+	},
+
+	changeStatus: function(msg)
+	{
+		$("#status").text(msg);
+
+		Id2Web.setDocumentTitle(msg);
 	},
 
 	message: function(title, subtitle)
@@ -608,15 +684,20 @@ var Id2Web =
 		document.title = msg + " - search-id";
 	},
 
+	torrentsClear: function()
+	{
+		Id2Web.client.torrents.forEach(function(torrent) {
+			Id2Web.client.remove(torrent.infoHash);		
+		});
+	},
+
 	play: function(files)
 	{
 		$("#play").fadeOut();
 
 		$("#viewer").empty();
 
-		Id2Web.client.torrents.forEach(function(torrent) {
-			Id2Web.client.remove(torrent.infoHash);		
-		});
+		Id2Web.torrentsClear();
 
 		Id2Web.resetUI()
 
@@ -626,19 +707,19 @@ var Id2Web =
 
 		if(files == null)
 		{
-			$("#status").text(Id2Web.getLang("status.searching"));
+			Id2Web.changeStatus(Id2Web.getLang("status.searching"));
 			Id2Web.statusColor("yellow");
 			Id2Web.playData(this.params["id"]);
 		}
 		else if( (files.length == 1) && (Id2Web.matchExtension(files[0].name, ['torrent'])) )
 		{
-			$("#status").text(Id2Web.getLang("status.searching"));
+			Id2Web.changeStatus(Id2Web.getLang("status.searching"));
 			Id2Web.statusColor("yellow");
 			Id2Web.playTorrentFile(files[0])				
 		}
 		else
 		{
-			$("#status").text(Id2Web.getLang("status.upload"));
+			Id2Web.changeStatus(Id2Web.getLang("status.upload"));
 			Id2Web.statusColor("yellow");
 			Id2Web.playFiles(files)
 		}
@@ -678,7 +759,7 @@ var Id2Web =
 		}		
 		else {
 			Id2Web.message("Unknown address","<pre>" + id + "</pre>");
-			$("#status").text(Id2Web.getLang("status.404"));
+			Id2Web.changeStatus(Id2Web.getLang("status.404"));
 			Id2Web.statusColor("red");
 		}
 	},
@@ -724,6 +805,8 @@ var Id2Web =
 		*/
 
 		var id = magnet.match(/btih\:([0-9a-f]+)/i)[1]; 
+
+		console.log(magnet);
 		
 		Id2Web.message(Id2Web.getLang("steps.searching.title"), Id2Web.getLang("steps.searching.subtitle.id", id));
 		
@@ -749,12 +832,48 @@ var Id2Web =
 
 	playFiles: function(files)
 	{	
+		Id2Web.seed(files);
+	},
+
+	playFetchHttpTest: function()
+	{
+		// 2021-01-11: Don't work
+
+		Id2Web.playFetchHttp("https://search-id.org/testhtml.html","test.html");
+	},
+
+	playFetchHttp: function(url, name)
+	{
+		// 2021-01-11: Don't work, i cannot find a method to pass a Blob to WebTorrent
+
+		var oReq = new XMLHttpRequest();
+		oReq.open("GET", url, true);
+		oReq.responseType = "blob";
+
+		oReq.onload = function (oEvent) {
+			var arrayBuffer = oReq.response;
+			if (arrayBuffer) {
+				var byteArray = new Uint8Array(arrayBuffer);
+				
+				var f = new File(byteArray, "x.html");
+
+				Id2Web.seed(f);
+			}
+		};
+
+		oReq.send(null);		
+	},
+
+	seed: function(obj)
+	{	
+		Id2Web.torrentsClear();
+
 		var opts={
 			announce: Id2Web.trackers.always
 		};
 
-		Id2Web.message(Id2Web.getLang("steps.searching.title"), Id2Web.getLang("steps.searching.subtitle"));
-		Id2Web.client.seed(files, opts, function(torrent) {
+		Id2Web.message(Id2Web.getLang("status.upload"), Id2Web.getLang("stats.upload.subtitle"));
+		Id2Web.client.seed(obj, opts, function(torrent) {
 			Id2Web.params["id"] = torrent.infoHash;
 			Id2Web.updateUI();				
 			var magnet = Id2Web.buildMagnetLink(torrent.infoHash);
@@ -762,6 +881,8 @@ var Id2Web =
 			Id2Web.processTorrent(torrent);
 
 			Id2Web.updateUiTorrentLink(torrent);
+
+			Id2Web.onComplete();
 		});
 	},
 
@@ -807,7 +928,26 @@ var Id2Web =
 		for(var t=0;t<Id2Web.trackers.always.length;t++)
 			m += '&tr=' + encodeURIComponent(Id2Web.trackers.always[t])
 		for(var p=0;p<params.length;p++)
-			m += '&' + params[p].name + '=' + encodeURIComponent(params[p].value)
+			m += '&' + params[p].name + '=' + encodeURIComponent(params[p].value)		
+
+		// 2019-08-07 Add pools as webseed
+		for(var p=0;p<Id2Web.pools.length;p++)
+		{
+			var poolUrl = Id2Web.pools[p].url
+			var webSeedTorrentUrl = poolUrl + "/files/" + hash + "/" + hash + ".torrent";
+			m += "&xs=" + encodeURIComponent(webSeedTorrentUrl);
+
+			// TOFIXWEBSEED
+			// Note 2020-05-02 : "ws" must point to folder in multi-file torrent, must point to file in single-file torrent.
+			// But here we don't know the content of the .torrent.
+			// Try to discuss here: https://github.com/webtorrent/webtorrent/issues/1844			
+			
+			//var webSeedFolder = poolUrl + "/files/" + hash + "/torbrowser-install-win64-8.5.3_en-US.exe";
+			var webSeedFolder = poolUrl + "/files/" + hash + "/";
+			
+			// Right? If i decomment, homepage webseed don't work anymore
+			//m += "&ws=" + encodeURIComponent(webSeedFolder); // Right version for multifile-torrent, see https://search-id.org/search-id.html?de3ebc26f74ae97225335bb74083ef67dbe03c00
+		}
 		
 		return m
 	},
@@ -844,6 +984,25 @@ var Id2Web =
 		{
 			var file = torrent.files[f];
 
+			// TOFIXWEBSEED
+			// 2019-08-07 Add pools as webseed
+			if(torrent.files.length == 1) // Otherwise 'ws' already do the job
+			{
+				for(var p=0;p<Id2Web.pools.length;p++)
+				{
+					var poolUrl = Id2Web.pools[p].url
+					var webseedUrl = poolUrl + "/files/" + torrent.infoHash + "/" + file.name;				
+					//var webseedUrl = poolUrl + "/files/" + torrent.infoHash + "/";				
+					//prompt(webseedUrl);
+					torrent.addWebSeed(webseedUrl);
+				}
+/*
+				for(var w=0;w<torrent.wires.length;w++)
+					if(torrent.wires[w].type == "webSeed")
+						torrent.wires[w].interested();
+						*/
+			}
+
 			var domFile = $("<div class='file'>");
 			domFile.attr("data-name", Id2Web.hashString(file.name));
 			domFile.text(Id2Web.getLang("file.stats", file.name, Id2Web.bytesToStr(file.length)));
@@ -856,6 +1015,8 @@ var Id2Web =
 			var domFileSave = $("<a href='#' class='file-save hover-effect disabled tooltip-bottom'></a>");
 			domFileSave.attr("data-tooltip",Id2Web.getLang("tooltip.file-save"));
 			domFile.append(domFileSave);
+
+			Id2Web.initDom(domFile);
 		}
 
 		Id2Web.changeView()
@@ -1228,7 +1389,20 @@ var Id2Web =
 	{		
 		Id2Web.updateUiTorrentLink(torrent)
 
-		Id2Web.updateUI2()
+		Id2Web.updateUI2()		
+
+		Id2Web.onComplete();
+	},
+
+	onComplete: function()
+	{
+		// Auto add to library
+		var id = Id2Web.params["id"];
+		if(!Id2Web.library[id])
+		{
+			Id2Web.library[id] = { 'ts':Math.floor(Date.now() / 1000) };
+			Id2Web.librarySave();		
+		}
 	},
 
 	onWire: function(wire)
@@ -1254,46 +1428,62 @@ var Id2Web =
 		if(torrent == null)
 			return;
 
+		var domPeersGraph = $("#peers");
+
+		if(domPeersGraph.children().length == 0)
+		{
+			// Build
+			domPeersGraph.show(); // Otherwise cant compute size
+
+			Id2Web.graph = new window.P2PGraph(domPeersGraph.get(0));
+			Id2Web.graph.add({ id: 'You', name: 'You', me: true });
+
+			for(var w=0;w<torrent.wires.length;w++)
+			{
+				Id2Web.onWire(torrent.wires[w]);
+			}
+		}		
+
+		//domPeersGraph.css("width","400px");
+		//domPeersGraph.css("height","400px");
+		/*
+		// Popup edition
 		var domPeersGraph = $("<div id='peers-graph'></div>");
 		$("#main-area").parent().append(domPeersGraph);
 		
 		var w = $("#main-area").width();
 		var h = $("#main-area").height();
-		var sizeX = $("#peers").position().left;				
+		var sizeX = $("#peers-button").position().left;				
 		domPeersGraph.css("position","absolute");
-		h -= $("#peers").position().top;
-		h -= $("#peers").outerHeight(true);		
-		domPeersGraph.css("top",$("#peers").offset().top + $("#peers").height());
-		domPeersGraph.css("left",$("#peers").offset().left);
+		h -= $("#peers-button").position().top;
+		h -= $("#peers-button").outerHeight(true);		
+		domPeersGraph.css("top",$("#peers-button").offset().top + $("#peers-button").height());
+		domPeersGraph.css("left",$("#peers-button").offset().left);
 		//domPeersGraph.css("width","100%"); // Fit in main-area
 		//domPeersGraph.css("height", h); // Fit in main-area
 		domPeersGraph.css("width",w); // Square version
 		domPeersGraph.css("height",w); // Square version
-				
-		Id2Web.graph = new window.P2PGraph(domPeersGraph.get(0));
-		Id2Web.graph.add({ id: 'You', name: 'You', me: true });
+		*/
 		
 		// Note: i hack p2pgraph.min.js to replace
 		// "self._height = window.innerWidth >= 900 ? 400 : 250" with "self._height = window.innerHeight".
 		
 		domPeersGraph.hide();
 		
-		domPeersGraph.fadeIn(500, function() {			
+		domPeersGraph.slideDown(Id2Web.animationSpeed, function() {			
 		});
-				
-		for(var w=0;w<torrent.wires.length;w++)
-		{
-			Id2Web.onWire(torrent.wires[w]);
-		}
 	},
 
 	peersGraphHide: function () {
-		$("#peers-graph").fadeOut(500, function() {
+		$("#peers").slideUp(Id2Web.animationSpeed, function() {
+			/*
 			if(Id2Web.graph != null)
 			{
 				Id2Web.graph.destroy();
 				Id2Web.graph = null;
 			}
+			$("#peers").empty();
+			*/
 		});
 	},
 
@@ -1526,6 +1716,68 @@ var Id2Web =
 	Utils
 	---------------------------------- */
 
+	isFrameMode: function() 
+	{
+		var frameMode = false;
+		try {
+			frameMode = window.self !== window.top;
+		} catch (e) {
+			frameMode = true;
+		}
+		return frameMode;
+	},	
+
+	initDom: function(domItem) {
+		domItem.find('*[data-tooltip]').each(function() {
+			if(Id2Web.isFrameMode() === false) // Bug, TOFIX, tooltip don't works well in iframe
+				Id2Web.tooltipInit($(this))
+		})
+	},
+
+	tooltipInit: function(domItem) {
+		domItem.on('mouseenter focus', function() {
+			var position = 'top'
+			if (domItem.hasClass("tooltip-top")) position = 'top'
+			if (domItem.hasClass("tooltip-bottom")) position = 'bottom'
+			if (domItem.hasClass("tooltip-left")) position = 'left'
+			if (domItem.hasClass("tooltip-right")) position = 'right'
+
+			if (Id2Web.domTooltip === null) {
+				Id2Web.domTooltip = $('<div></div>')
+				Id2Web.domTooltip.addClass('id2web_tooltip')
+				Id2Web.domTooltip.attr('role', 'tooltip')
+				Id2Web.domTooltip.append("<div class='id2web_tooltip_body'></div>");
+				Id2Web.domTooltip.append("<div class='id2web_tooltip_arrow' data-popper-arrow></div>");
+				$('body').append(Id2Web.domTooltip)
+			}
+
+			Id2Web.domTooltip.find('.id2web_tooltip_body').text($(this).attr('data-tooltip'))
+			Id2Web.domTooltip.attr('data-show', '');
+			Id2Web.domTooltip.attr('data-popper-placement', position)
+			Id2Web.domTooltipPopper = Popper.createPopper($(this).get(0), Id2Web.domTooltip.get(0), {
+				placement: position,
+				modifiers: [{
+					name: 'offset',
+					options: {
+						offset: [0, 8],
+					},
+				}, ],
+			});
+		})
+		domItem.on('mouseleave blur', function() {
+			Id2Web.domTooltip.removeAttr('data-show');
+			if (Id2Web.domTooltipPopper !== null) {
+				Id2Web.domTooltipPopper.destroy()
+				Id2Web.domTooltipPopper = null
+			}
+		})
+
+	},
+
+	/* ----------------------------------
+	Utils
+	---------------------------------- */
+
 	log: function(msg)
 	{
 		// instanceId is used to distinguish instances for example in a html with embedded content.
@@ -1575,6 +1827,10 @@ var Id2Web =
 		if (query.indexOf("=") == -1) // Without option, is a direct ID
 		{
 			result["id"] = decodeURIComponent(query);			
+		} 
+		else if(query.startsWith("magnet"))
+		{
+			result["id"] = query;
 		}
 		else {
 			query.split("&").forEach(function (part) {
@@ -1648,20 +1904,9 @@ var Id2Web =
 		return str;
 	},
 
-	inIframe: function()
-	{
-		try
-		{
-			return window.self !== window.top;
-		} catch (e)
-		{
-			return true;
-		}
-	},
-
 	htmlEncode: function (value)
 	{
-		// Create a in-memory div, set it's inner text(which jQuery automatically encodes) then grab the encoded contents back out.
+		// Create a in-memory div, set it's inner text(which jQuery automatically encodes) then grab the encoded contents back out. Not the best solution.
 		return $('<div/>').text(value).html();
 	},
 
@@ -1860,6 +2105,7 @@ var Id2Web =
 /* -------------------------------
 Polyfill
 ------------------------------- */
+
 if (!String.prototype.replaceAll) {
 	String.prototype.replaceAll = function(search, replacement) {
 		var target = this;

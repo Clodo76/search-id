@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this file. If not, see <http://www.gnu.org/licenses/>.
 
-Id2Web.home = '13sMAwAwK624CVJzGnro6QxqnhpXbieZ8F';
+Id2Web.home = '8943ba2dd103f7249452cbd3e1fecf41796d1ca3';
 Id2Web.fileSizeLimit = 2 * 1000 * 1000 * 1000; // 2GB
 Id2Web.trackers = {
 	always: [

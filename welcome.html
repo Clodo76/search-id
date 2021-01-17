@@ -108,7 +108,7 @@
 			{
 				text-align:center;
 				padding:0.2em;
-				padding-left:8%;
+				padding-right:8vw;
 				background-color:rgba(255,255,255,1);
 			}
 						
@@ -129,8 +129,21 @@
 				padding:0.5em;
 				margin:0.5em;
 				margin-bottom:1em;
-				box-shadow:0px 0px 1em gray;
+				box-shadow: 0 6px 26px 0 rgba(0,0,0,.08);
 				background-color:rgba(255,255,255,1);
+			}
+
+			.tiles
+			{
+				display:flex;
+				flex-wrap: wrap;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.tiles > div
+			{
+				max-width: 50em;
 			}
 			
 			iframe
@@ -143,19 +156,22 @@
 	<body>		
 		<div class='block0'>
 			<p>
-				This is an APP (as single html file, download <a download href='search-id.min.html'>here</a>) that search and show content of an ID (multiple formats supported, see below) only with P2P technologies.
+				<!-- Absolute domain-related link below, otherwise issue if hosted on ipfs.io, localhost etc. -->
+				This is an APP (as single html file, download <a download href='https://search-id.org/search-id.min.html'>here</a>) that search and show content of an ID (multiple formats supported, see below) only with P2P technologies.
 			</p>			
 			<p class='subtitle'>
-				Open the right menu for stuffs. Add content to the network with the + button. Return to this page with the HOME button.
+				Open the right menu for add content with the + button, and use share links.
 			</p>			
 		</div>
 		
+		<!--
 		<div class='block1'>
 			<h1>Directories</h1>
 			
 			<p>I hope i can publish here link to html pages created by the community with this system, to build a network of serverless contents.</p>
 			<iframe style='width:100%;height:450px;border:0px' src='https://search-id.org/pool/tagcloud'></iframe>
 		</div>
+		-->
 		
 		<div class='block1'>
 			<h1>Why it rocks</h1>
@@ -172,60 +188,62 @@
 		<div class='block2'>
 			<h1>Examples - Case study</h1>
 			
-			<div class='box'>
-				<a href='?08ada5a7a6183aae1e09d831df6748d566095a10'>
-					Sintel.mp4
-				</a> 
-				<div class='center'>
-					<iframe style='width:640px;height:380px;' src='?id=08ada5a7a6183aae1e09d831df6748d566095a10&autoplay=false'></iframe>
+			<div class='tiles'>
+				<div class='box'>
+					<a href='?08ada5a7a6183aae1e09d831df6748d566095a10'>
+						Sintel.mp4
+					</a> 
+					<div class='center'>
+						<iframe style='width:640px;height:380px;' src='?id=08ada5a7a6183aae1e09d831df6748d566095a10&autoplay=false'></iframe>
+					</div>
+					<p>
+						A video file. Viewed and shared in streaming.					
+						<br>
+						A group of friends can use this system to share videos or films.
+						It's possible to click Menu -> + , build an ID of a video file, share the link in a private WhatsApp group.
+						Who view the content, help others as a seed.
+						<br>
+						Note: if opened on another PC in the same lan, is streamed over lan. This system can be used to share files between devices in lan, by sharing only ID/Url via IM like WhatsApp or Telegram.
+					</p>
 				</div>
-				<p>
-					A video file. Viewed and shared in streaming.					
-					<br>
-					A group of friends can use this system to share videos or films.
-					It's possible to click Menu -> + , build an ID of a video file, share the link in a private WhatsApp group.
-					Who view the content, help others as a seed.
-					<br>
-					Note: if opened on another PC in the same lan, is streamed over lan. This system can be used to share files between devices in lan, by sharing only ID/Url via IM like WhatsApp or Telegram.
-				</p>
-			</div>
-			
-			<div class='box'>
-				<a href='?1d3327019f8de7f8674cf3adde6f2b9e451a50b2'>
-					torbrowser-install-7.5.3_en-US.exe
-				</a> 
-				<div class='center'>
-					<iframe style='width:640px;height:200px;' data-id='1d3327019f8de7f8674cf3adde6f2b9e451a50b2'></iframe>
+				
+				<div class='box'>
+					<a href='?87bc8ad61c712f57a4dc2410d6b79273ce46f123'>
+						torbrowser-install-win64-8.5.3_en-US.exe
+					</a> 
+					<div class='center'>
+						<iframe style='width:640px;height:200px;' data-id='87bc8ad61c712f57a4dc2410d6b79273ce46f123'></iframe>
+					</div>
+					<p>
+						<a href='https://www.torproject.org/projects/gettor'>GetTor robot</a> provide alternative methods to download Tor Browser, specially for situations where access to Tor Project's official website and mirrors is blocked. 					
+					</p>
+					<p>
+						The link above (Windows bundle as example) search it in the p2p network. So, people can obtain Tor by know only the above ID and have access to a copy of search-id html page.
+					</p>
+					<p>
+						Can be better: it's possible to use a bitcoin address, and publish updates without need to change the known ID (that will remain fixed in time even if address an updated version). Read below in <i>Types of ID supported</i> section.
+					</p>
 				</div>
-				<p>
-					<a href='https://www.torproject.org/projects/gettor'>GetTor robot</a> provide alternative methods to download Tor Browser, specially for situations where access to Tor Project's official website and mirrors is blocked. 					
-				</p>
-				<p>
-					The link above (Windows bundle as example) search it in the p2p network. So, people can obtain Tor by know only the above ID and have access to a copy of search-id html page.
-				</p>
-				<p>
-					Can be better: it's possible to use a bitcoin address, and publish updates without need to change the known ID (that will remain fixed in time even if address an updated version). Read below in <i>Types of ID supported</i> section.
-				</p>
-			</div>
 
-			<div class='box'>
-				This system can be used in combo with <a href='https://memo.cash/'>memo.cash</a>, a Social Network based on Dapp build on Bitcoin Cash. Example: <a href='https://memo.cash/post/503af73303569fe6b4e72ec58867a2a241d7c45ebd23bdefd97d25826d18ef78'>A post on memo.cash</a>. The post ID is a BCH transaction, use ID here to render the content.
-			</div>
-			
-			<div class='box'>
-				<a href='?9c2add2df784e05278ed7f611b9ecb55da323d89'>
-					moonscape.html
-				</a> 
-				<div class='center'>
-					<iframe style='width:100%;height:400px;' src='?id=9c2add2df784e05278ed7f611b9ecb55da323d89&autoplay=false'></iframe>
+				<div class='box'>
+					<a href='?9c2add2df784e05278ed7f611b9ecb55da323d89'>
+						moonscape.html
+					</a> 
+					<div class='center'>
+						<iframe style='width:100%;height:400px;' src='?id=9c2add2df784e05278ed7f611b9ecb55da323d89&autoplay=false'></iframe>
+					</div>
+					<p>
+						A demo of an .html content that contain other resources loaded in the same way.
+						<br>
+						The html contain code like
+						<code>&lt;code&gt;&lt;iframe data-id=&#39;4d616494baf69a1ce2a8c00effac986a4c106da4&#39;&gt;&lt;/iframe&gt;&lt;/code&gt;</code>
+						and the system automatically convert the data-id attribute for nested contents.
+					</p>
 				</div>
-				<p>
-					A demo of an .html content that contain other resources loaded in the same way.
-					<br>
-					The html contain code like
-					<code>&lt;code&gt;&lt;iframe data-id=&#39;4d616494baf69a1ce2a8c00effac986a4c106da4&#39;&gt;&lt;/iframe&gt;&lt;/code&gt;</code>
-					and the system automatically convert the data-id attribute for nested contents.
-				</p>
+
+				<div class='box'>
+					This system can be used in combo with <a href='https://memo.cash/'>memo.cash</a>, a Social Network based on Dapp build on Bitcoin Cash. Example: <a href='https://memo.cash/post/503af73303569fe6b4e72ec58867a2a241d7c45ebd23bdefd97d25826d18ef78'>A post on memo.cash</a>. The post ID is a BCH transaction, use ID here to render the content.
+				</div>
 			</div>
 		</div>
 		
@@ -320,21 +338,42 @@
 					<li>a WebTorrent and UDP/TCP tracker</li>
 					<li>a Pool server instance (experimental)</li>
 				</ul>	
-				We also run a dedicated server as Pool client (experimental)				
+				We also run a dedicated server as Pool client (experimental)
 				<br>
-				Remember: anyone can host the <i>search-id.min.html</i> file, publish a mirror, keep a copy in an usb key.
+				We expose all details <a href='https://search-id.org/stats'>https://search-id.org/stats</a> and <a href='https://search-id.org/stats.json'>https://search-id.org/stats.json</a> here in JSON.
+				<br>
+				Remember: anyone can host the single <i>search-id.min.html</i> file, publish a mirror, keep a copy in an usb key.
 			</p>
 
 			<h2>Libraries</h2>
 			<ul>
-				<li><a src='https://github.com/webtorrent/webtorrent'>WebTorrent</a> 0.102.0 - P2P contents</li>
-				<li><a src='https://github.com/feross/p2p-graph'>p2p-graph</a> v1.2.2 - UI, wires list</li>
-				<li><a src='https://jquery.com/'>jQuery</a> 3.3.1 - UI</li>
-				<li><a src='https://github.com/bitcoincashjs/bchaddrjs'>bchaddrjs</a> 0.2.2 - BCH Explorer</li>				
-				<li><a src='https://github.com/markedjs'>Marked</a> 0.4.0 - For rendering Markdown</li>
+				<li><a href='https://github.com/webtorrent/webtorrent'>WebTorrent</a> 0.102.0 - P2P contents</li>
+				<li><a href='https://github.com/feross/p2p-graph'>p2p-graph</a> v1.2.2 - UI, wires list</li>
+				<li><a href='https://jquery.com/'>jQuery</a> 3.3.1 - UI</li>
+				<li><a href='https://github.com/bitcoincashjs/bchaddrjs'>bchaddrjs</a> 0.2.2 - BCH Explorer</li>				
+				<li><a href='https://github.com/markedjs'>Marked</a> 0.4.0 - For rendering Markdown</li>
 			</ul>
 
 			<h2>Changelog</h2>
+			<p>
+				v0.7
+				<ul>
+					<li>Better output of minimized bundle file</h1>					
+					<li>Minor Bugfix</h1>					
+				</ul>
+			</p>
+			<p>
+				v0.6
+				<ul>
+					<li>Minor changes</h1>					
+				</ul>
+			</p>
+			<p>
+				v0.5
+				<ul>
+					<li>Minor changes</h1>					
+				</ul>
+			</p>
 			<p>
 				v0.4
 				<ul>
@@ -413,14 +452,14 @@
 				This project is developed by <a href='https://www.clodo.it'>Clodo</a> and it's a frontend to the great <a href='https://webtorrent.io/'>WebTorrent</a> project.
 			</p>
 			<p>
-				It's released under <a href='https://www.gnu.org/licenses/gpl-3.0.html'>GPLv3</a>. Thinking about <a href='https://www.kopimi.com/'>Kopimi</a> adoption.
+				It's released under <a href='https://www.gnu.org/licenses/agpl-3.0.html'>AGPLv3</a>. Thinking about <a href='https://www.kopimi.com/'>Kopimi</a> adoption.
 			</p>
 			<p>
 				Hosted on <a href='https://github.com/Clodo76/search-id'>GitHub</a>. <a href='https://twitter.com/SearchID2'>Twitter</a> and <a href='https://t.me/joinchat/CANCWhA7RdXTISGhvyWKcg'>Telegram Group</a> for testing and feedback.				
 			</p>
 		</div>
 
-		<div id='revision'>welcome.html 0.5 2018/08/26</div>
+		<div id='revision'>welcome.html 0.8 2021/01/17</div>
 		
 	</body>
 </html>

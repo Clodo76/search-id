@@ -38,6 +38,7 @@
 		<link rel="stylesheet" type="text/css" href="embedded/search-id.css" />
 
 		<script src="embedded/webtorrent.min.js"></script>
+		<script src="embedded/popper.min.js"></script>
 		<script src="embedded/p2p-graph.min.js"></script>		
 		<script src="embedded/jquery-3.3.1.min.js"></script>
 		<script src="embedded/bchaddrjs-0.2.1.min.js"></script>
@@ -46,6 +47,7 @@
 		<script src="embedded/search-id.js"></script>
 		<script src="embedded/search-id.lang.en.js"></script>		
 		<script src="embedded/search-id.lang.it.js"></script>		
+		
 		<script src="embedded/options.js"></script>
 	</head>
 
@@ -71,15 +73,9 @@
 				</div>
 				<div id='upload' class='tooltip-bottom'>
 				</div>
-				<div id='peers' class='hover-effect tooltip-bottom'></div>			
-				<div id='tools'>
-					<div id='layout'>
-						<span id='layout-title'>Layout:</span>
-						<a id='layout-auto' class='hover-effect tooltip-bottom'></a>
-						<a id='layout-list' class='hover-effect tooltip-bottom'></a>
-						<a id='layout-binary' class='hover-effect tooltip-bottom'></a>
-						<!--<a id='layout-none' class='hover-effect tooltip-bottom'></a>-->
-					</div>
+				<div id='peers-button' class='hover-effect tooltip-bottom'></div>										
+				<div id='peers'></div>
+				<div id='tools'>					
 					<div id='share'>
 						<span id='share-title'>Share:</span>
 						<a id='share-www' class='hover-effect tooltip-bottom'></a>
@@ -87,9 +83,21 @@
 						<a id='share-magnet' class='hover-effect tooltip-bottom'></a>
 						<a id='share-torrent' class='hover-effect tooltip-bottom'></a>
 					</div>
+					<div id='layout'>
+						<span id='layout-title'>Layout:</span>
+						<a id='layout-auto' class='hover-effect tooltip-bottom'></a>
+						<a id='layout-list' class='hover-effect tooltip-bottom'></a>
+						<a id='layout-binary' class='hover-effect tooltip-bottom'></a>
+						<!--<a id='layout-none' class='hover-effect tooltip-bottom'></a>-->
+					</div>
 				</div>
 			</div>			
 			<div id='files'></div>
+			<div id='library-button' class='hover-effect tooltip-bottom'></div>							
+			<div id='library'>
+				<div id='library-welcome'></div>
+				<div id='library-items'></div>					
+			</div>
 			<div id='credits'>
 				search-id <span id='version'></span> by <a class='hover-effect' target='_blank' href='https://twitter.com/Clodo76'>Clodo</a>. 				
 				-
@@ -97,7 +105,7 @@
 				<a target='_blank' href='https://twitter.com/SearchID2' class='hover-effect tooltip-left social twitter' data-tooltip='Twitter'></a>
 				<a target='_blank' href='https://t.me/joinchat/CANCWhA7RdXTISGhvyWKcg' class='hover-effect tooltip-left social telegram' data-tooltip='Telegram'></a>
 				-
-				<a target='_blank' href='https://www.gnu.org/licenses/gpl-3.0.html' class='hover-effect tooltip-left' data-tooltip='Open Source License'>GPLv3</a> 
+				<a target='_blank' href='https://www.gnu.org/licenses/agpl-3.0.html' class='hover-effect tooltip-left' data-tooltip='Open Source License'>AGPLv3</a> 
 				<br>
 				Powered by
 				<a id='webtorrent' class='hover-effect tooltip-left' data-tooltip='It rocks!' target='_blank' href='https://webtorrent.io'></a>				
